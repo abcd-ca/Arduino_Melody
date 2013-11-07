@@ -1,5 +1,5 @@
-Arduino_Melody
-==============
+Melody library for Arduino
+==========================
 
 Arduino library created for convenient playing of melodies through a small piezo buzzer or speaker.
 
