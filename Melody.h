@@ -29,17 +29,26 @@ THE SOFTWARE.
 #ifndef Melody_H
 #define Melody_H
 
+#include "Arduino.h"
 #include "Note.h"
 
 class Melody {
 	public:
 		Melody(int melodyPin);
+		void loop();
 		void setNotes(Note* notes, int numNotes);
-		void play();
+		void start();
 		
 	private:
-		int melodyPin;
-		int numNotes;
-		Note *notes_ptr;
+		void _nextNote();
+		
+		int _melodyPin;
+		int _numNotes;
+		Note *_notes_ptr;
+		unsigned long _lastTimeMS;
+		int _noteDuration;
+		int _restDuration;
+		boolean _playing;
+		int _noteIndex;
 };
 #endif //Melody_H

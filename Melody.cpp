@@ -30,36 +30,60 @@ THE SOFTWARE.
 #include "Melody.h"
 #include <avr/pgmspace.h>
 
-int melodyPin;
-int numNotes;
-Note *notes_ptr;
-
-Melody::Melody(int melodyPin){
-	this->melodyPin = melodyPin;
-	this->notes_ptr = NULL;
+Melody::Melody(int melodyPin) : 
+								_melodyPin(melodyPin), 
+								_playing(false),
+								_noteIndex(0){
 }
 
 void Melody::setNotes(Note* notes, int numNotes){
-	this->notes_ptr = notes;
-	this->numNotes = numNotes;
+	_notes_ptr = notes;
+	_numNotes = numNotes;
 }
 
-void Melody::play(){
-	Serial.println("Melody::play");
-    // iterate over the notes of the melody:
-    for (int noteIndex = 0; noteIndex < this->numNotes; noteIndex++) {
-		// to calculate the note duration, take one second 
-		// divided by the note type.
-		//e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
-		int noteDuration = 1000 / pgm_read_word(&(this->notes_ptr[noteIndex].duration));
-		tone(this->melodyPin, pgm_read_word(&(this->notes_ptr[noteIndex].note)), noteDuration);
-
-		// to distinguish the notes, set a minimum time between them.
-		// the note's duration + 30% seems to work well:
-		int pauseBetweenNotes = noteDuration * 1.30;
-		delay(pauseBetweenNotes);
+/**
+ * Have your main .ino file call this loop() in its own loop(). Instead of using timers. 
+ * Timers could be preferred but you may not want your music to take priority over whatever
+ * else is going on in the loop. 
+ * //TODO make it work with hardware timer also, user configurable hardware timer vs loop fn
+ */
+void Melody::loop(){
+	if (_playing && millis() - _lastTimeMS >= _restDuration){
+		_lastTimeMS = millis();
+		
 		// stop the tone playing:
-		noTone(this->melodyPin);
-    }
+		noTone(_melodyPin);
+		
+		if (_noteIndex++ < _numNotes){
+			_nextNote();
+		}else{
+			_noteIndex = 0;
+			_playing = false;
+			Serial.println(F("Melody done."));
+		}
+	}
+}
+
+void Melody::start(){
+	Serial.print(F("melody pin: ")); Serial.println(_melodyPin);
+	Serial.println("Starting melody");
+	_playing = true;
+	_noteIndex = 0;
+	_lastTimeMS = millis();
+	_nextNote();
+}
+
+void Melody::_nextNote(){
+	Serial.println(F("next note playing"));
+	// to calculate the note duration, take one second 
+	// divided by the note type.
+	//e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
+	_noteDuration = 1000 / pgm_read_word(&(_notes_ptr[_noteIndex].duration));
+	Serial.print(F("Note: ")); Serial.println(pgm_read_word(&(_notes_ptr[_noteIndex].note)));
+	tone(_melodyPin, pgm_read_word(&(_notes_ptr[_noteIndex].note)), _noteDuration);
+	
+	// to distinguish the notes, set a minimum time between them.
+	// the note's duration + 30% seems to work well:
+	_restDuration = _noteDuration * 1.30;
 }
 
