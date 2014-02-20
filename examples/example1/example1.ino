@@ -42,41 +42,41 @@ PROGMEM Note melody1Notes[] = {
 };
 
 //initialize the song notes and timing with an array of notesData structs. notesData struct is defined in Note.h
-// PROGMEM Note melody2Notes[] = {
-// 	{NOTE_E7, 8},
-// 	{0, 16},
-// 	{NOTE_E7, 8},
-// 	{NOTE_E7, 8},
-// 	{NOTE_E7, 8},
-// 	{NOTE_E7, 8},
-// 	{0, 16},
-// 	{NOTE_C7, 8},
-// 	{0, 16},
-// 	{NOTE_E7, 8},
-// 	{0, 16},
-// 	{NOTE_G7, 1},
-// };
+PROGMEM Note melody2Notes[] = {
+	{NOTE_E7, 8},
+	{0, 16},
+	{NOTE_E7, 8},
+	{NOTE_E7, 8},
+	{NOTE_E7, 8},
+	{NOTE_E7, 8},
+	{0, 16},
+	{NOTE_C7, 8},
+	{0, 16},
+	{NOTE_E7, 8},
+	{0, 16},
+	{NOTE_G7, 1},
+};
 
 //initialize the song notes and timing with an array of notesData structs. notesData struct is defined in Note.h
-// PROGMEM Note melodyAlertNotes[] = {
-// 	{NOTE_CS7, 16},
-// 	{NOTE_CS7, 16},
-// 	{NOTE_CS7, 4},
-// 	{0, 8},
-// 	{NOTE_CS7, 16},
-// 	{NOTE_CS7, 16},
-// 	{NOTE_CS7, 4},
-// 	{0, 8},
-// 	{NOTE_CS7, 16},
-// 	{NOTE_CS7, 16},
-// 	{NOTE_CS7, 4},
-// 	{0, 1},
-// };	
+PROGMEM Note melodyAlertNotes[] = {
+	{NOTE_CS7, 16},
+	{NOTE_CS7, 16},
+	{NOTE_CS7, 4},
+	{0, 8},
+	{NOTE_CS7, 16},
+	{NOTE_CS7, 16},
+	{NOTE_CS7, 4},
+	{0, 8},
+	{NOTE_CS7, 16},
+	{NOTE_CS7, 16},
+	{NOTE_CS7, 4},
+	{0, 1},
+};	
 
 //create three Melody instances
 Melody melody1(MELODY_PIN);
-// Melody melody2(MELODY_PIN);
-// Melody melodyAlert(MELODY_PIN);
+Melody melody2(MELODY_PIN);
+Melody melodyAlert(MELODY_PIN);
 
 void setup(){
 	Serial.begin(9600);
@@ -84,29 +84,20 @@ void setup(){
 	melody1.setNotes(	melody1Notes, 
 						sizeof(melody1Notes) / sizeof(melody1Notes[0]));
 		
-	// melody2.setNotes(	melody2Notes, 
-	// 					sizeof(melody2Notes) / sizeof(melody2Notes[0]));
-	// 
-	// melodyAlert.setNotes(	melodyAlertNotes, 
-	// 					sizeof(melodyAlertNotes) / sizeof(melodyAlertNotes[0]));
+	melody2.setNotes(	melody2Notes, 
+						sizeof(melody2Notes) / sizeof(melody2Notes[0]));
+	
+	melodyAlert.setNotes(	melodyAlertNotes, 
+						sizeof(melodyAlertNotes) / sizeof(melodyAlertNotes[0]));
 	
 	//play the melodies in succession
 	melody1.start();
-	// delay(1000);
-// 
-// 	melody2.start();
-// 	delay(1000);
-// 
-// 	//play the alert tune three times
-// 	melodyAlert.start();
-// 	delay(1000);
-// 	melodyAlert.start();
-// 	delay(1000);
-// 	melodyAlert.start();
+	// melody2.start();
+	// melodyAlert.start();
 }
 
 void loop(){
 	melody1.loop();
-	// melody2.loop();
-	// melodyAlert.loop();
+	melody2.loop();
+	melodyAlert.loop();
 }

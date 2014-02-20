@@ -51,13 +51,11 @@ void Melody::loop(){
 	if (_playing && millis() - _lastTimeMS >= _restDuration){
 		_lastTimeMS = millis();
 		
-		// stop the tone playing:
-		noTone(_melodyPin);
-		
-		if (_noteIndex++ < _numNotes){
+		if (_noteIndex < _numNotes){
 			_nextNote();
 		}else{
 			_noteIndex = 0;
+			noTone(_melodyPin);
 			_playing = false;
 			Serial.println(F("Melody done."));
 		}
@@ -85,5 +83,6 @@ void Melody::_nextNote(){
 	// to distinguish the notes, set a minimum time between them.
 	// the note's duration + 30% seems to work well:
 	_restDuration = _noteDuration * 1.30;
+	_noteIndex++;
 }
 
