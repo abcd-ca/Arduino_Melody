@@ -74,30 +74,28 @@ PROGMEM Note melodyAlertNotes[] = {
 };	
 
 //create three Melody instances
-Melody melody1(MELODY_PIN);
-Melody melody2(MELODY_PIN);
-Melody melodyAlert(MELODY_PIN);
+Melody melody(MELODY_PIN);
 
 void setup(){
 	Serial.begin(9600);
-	//give each instance its notes
-	melody1.setNotes(	melody1Notes, 
-						sizeof(melody1Notes) / sizeof(melody1Notes[0]));
-		
-	melody2.setNotes(	melody2Notes, 
+
+	//uncomment only one at a time:
+
+	//play melody 1
+	// melody.setNotes(	melody1Notes, 
+	// 					sizeof(melody1Notes) / sizeof(melody1Notes[0]));
+
+	//play melody 2
+	melody.setNotes(	melody2Notes, 
 						sizeof(melody2Notes) / sizeof(melody2Notes[0]));
-	
-	melodyAlert.setNotes(	melodyAlertNotes, 
-						sizeof(melodyAlertNotes) / sizeof(melodyAlertNotes[0]));
-	
-	//play the melodies in succession
-	melody1.start();
-	// melody2.start();
-	// melodyAlert.start();
+	 	
+	//play melody 3
+	// melody.setNotes(	melodyAlertNotes, 
+	// 					sizeof(melodyAlertNotes) / sizeof(melodyAlertNotes[0]));
+
+	melody.start();					
 }
 
 void loop(){
-	melody1.loop();
-	melody2.loop();
-	melodyAlert.loop();
+	melody.loop();
 }

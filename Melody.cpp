@@ -37,8 +37,19 @@ Melody::Melody(int melodyPin) :
 }
 
 void Melody::setNotes(Note* notes, int numNotes){
+	stop();
 	_notes_ptr = notes;
 	_numNotes = numNotes;
+	_noteIndex = 0;
+}
+
+void Melody::stop(){
+	noTone(_melodyPin);
+	_playing = false;
+}
+
+boolean Melody::isPlaying(){
+	return _playing;
 }
 
 /**
@@ -55,16 +66,12 @@ void Melody::loop(){
 			_nextNote();
 		}else{
 			_noteIndex = 0;
-			noTone(_melodyPin);
-			_playing = false;
-			Serial.println(F("Melody done."));
+			stop();
 		}
 	}
 }
 
 void Melody::start(){
-	Serial.print(F("melody pin: ")); Serial.println(_melodyPin);
-	Serial.println("Starting melody");
 	_playing = true;
 	_noteIndex = 0;
 	_lastTimeMS = millis();
@@ -72,12 +79,10 @@ void Melody::start(){
 }
 
 void Melody::_nextNote(){
-	Serial.println(F("next note playing"));
 	// to calculate the note duration, take one second 
 	// divided by the note type.
 	//e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
 	_noteDuration = 1000 / pgm_read_word(&(_notes_ptr[_noteIndex].duration));
-	Serial.print(F("Note: ")); Serial.println(pgm_read_word(&(_notes_ptr[_noteIndex].note)));
 	tone(_melodyPin, pgm_read_word(&(_notes_ptr[_noteIndex].note)), _noteDuration);
 	
 	// to distinguish the notes, set a minimum time between them.

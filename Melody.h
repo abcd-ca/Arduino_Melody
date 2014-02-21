@@ -38,6 +38,8 @@ class Melody {
 		void loop();
 		void setNotes(Note* notes, int numNotes);
 		void start();
+		void stop();
+		boolean isPlaying();
 		
 	private:
 		void _nextNote();
