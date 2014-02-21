@@ -10,7 +10,7 @@ Instructions:
 
 3. Create a new Arduino project. In it, paste the contents of /examples/example1.ino
 
-4. Wire up a piezo buzzer or speaker just like in this example: http://arduino.cc/en/Tutorial/Tone
+4. Wire up a piezo buzzer or speaker just like in this example: http://arduino.cc/en/Tutorial/Tone. (Make sure MELODY_PIN matches yoru wiring.)
 
 5. Run it. You should hear some tunes play.
 
