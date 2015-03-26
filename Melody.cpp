@@ -36,7 +36,7 @@ Melody::Melody(int melodyPin) :
 								_noteIndex(0){
 }
 
-void Melody::setNotes(Note* notes, int numNotes){
+void Melody::setNotes(const Note* notes, int numNotes){
 	stop();
 	_notes_ptr = notes;
 	_numNotes = numNotes;
@@ -59,8 +59,9 @@ boolean Melody::isPlaying(){
  * //TODO make it work with hardware timer also, user configurable hardware timer vs loop fn
  */
 void Melody::loop(){
-	if (_playing && millis() - _lastTimeMS >= _restDuration){
-		_lastTimeMS = millis();
+	uint32_t nowMS = millis();
+	if (_playing && (nowMS - _lastTimeMS >= _restDuration)){
+		_lastTimeMS = nowMS;
 		
 		if (_noteIndex < _numNotes){
 			_nextNote();

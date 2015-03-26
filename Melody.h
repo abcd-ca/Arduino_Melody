@@ -36,7 +36,7 @@ class Melody {
 	public:
 		Melody(int melodyPin);
 		void loop();
-		void setNotes(Note* notes, int numNotes);
+		void setNotes(const Note* notes, int numNotes);
 		void start();
 		void stop();
 		boolean isPlaying();
@@ -46,7 +46,7 @@ class Melody {
 		
 		int _melodyPin;
 		int _numNotes;
-		Note *_notes_ptr;
+		const Note *_notes_ptr;
 		unsigned long _lastTimeMS;
 		int _noteDuration;
 		int _restDuration;
